@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://skyboundapi.somee.com/api",
+  baseURL: "https://skyboundapiprueba.somee.com/api",
 });
 
 api.interceptors.request.use(config => {
