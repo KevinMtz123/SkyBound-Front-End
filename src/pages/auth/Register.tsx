@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Usuario } from "../../types/Usuario";
 import api from "../../services/api";
 import CryptoJS from "crypto-js";
@@ -30,21 +29,10 @@ const UsuariosIndex = () => {
   const [nuevaClaveEditar, setNuevaClaveEditar] = useState("");
   const [mostrarClaveEditar, setMostrarClaveEditar] = useState(false);
   const [showToast, setShowToast] = useState(false);
-  const [usuarioLogueado, setUsuarioLogueado] = useState(false);
-
-  const navigate = useNavigate();
 
   useEffect(() => {
-    const usuario = localStorage.getItem("usuario");
-    if (!usuario) {
-      setUsuarioLogueado(false);
-      // Opcional: Redirigir automáticamente
-      // navigate("/login");
-    } else {
-      setUsuarioLogueado(true);
-      cargarUsuarios();
-    }
-  }, [navigate]);
+    cargarUsuarios();
+  }, []);
 
   const cargarUsuarios = async () => {
     try {
@@ -125,15 +113,6 @@ const UsuariosIndex = () => {
       console.error("Error al eliminar usuario", error);
     }
   };
-
-  if (!usuarioLogueado) {
-    return (
-      <div className="container mt-5 text-center">
-        <h2 className="text-danger">Acceso denegado 🚫</h2>
-        <p>Debes iniciar sesión para ver esta sección.</p>
-      </div>
-    );
-  }
 
   return (
     <div className="container py-5">
