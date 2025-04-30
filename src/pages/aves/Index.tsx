@@ -356,7 +356,16 @@ const AvesIndex = () => {
                 <div key={ave.idAve} className="col-12 col-sm-6 col-md-4 col-lg-3">
                   <div className="card h-100 shadow-sm border-0 rounded-4">
                     {ave.nombreImagen ? (
-                      <img src={`https://skybounapi.onrender.com/api/imagenes/${ave.nombreImagen}`} alt={ave.nombre ?? "Imagen de ave"} className="card-img-top rounded-top-4" style={{ height: "220px", objectFit: "cover" }} />
+<img
+  loading="lazy"
+  src={`https://skybounapi.onrender.com/api/imagenes/${ave.nombreImagen}`}
+  alt={ave.nombre ?? "Imagen de ave"}
+  className="card-img-top rounded-top-4"
+  style={{ height: "220px", objectFit: "cover" }}
+  onError={(e) => {
+    e.currentTarget.src = "/imagen-no-disponible.jpg"; 
+  }}
+/>
                     ) : (
                       <div className="bg-light d-flex align-items-center justify-content-center rounded-top-4" style={{ height: "220px" }}>
                         <span className="text-muted">Sin imagen</span>
