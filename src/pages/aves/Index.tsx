@@ -356,7 +356,12 @@ const AvesIndex = () => {
                 <div key={ave.idAve} className="col-12 col-sm-6 col-md-4 col-lg-3">
                   <div className="card h-100 shadow-sm border-0 rounded-4">
                     {ave.nombreImagen ? (
-<img src={`https://skybounapi.onrender.com/api/imagenes/${ave.idAve}`} />
+<img
+  src={`https://skybounapi.onrender.com/api/imagenes/${ave.idAve}`}
+  alt={ave.nombre ?? "Imagen de ave"}
+  className="card-img-top rounded-top-4"
+  style={{ height: "220px", objectFit: "cover", width: "100%" }}
+/>
 
                     ) : (
                       <div className="bg-light d-flex align-items-center justify-content-center rounded-top-4" style={{ height: "220px" }}>
