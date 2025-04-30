@@ -75,9 +75,7 @@ const LoginPage = () => {
         </button>
       </form>
 
-      <div className="text-center mt-3">
-        <p>¿No tienes cuenta? <a href="/register">Regístrate</a></p>
-      </div>
+      
     </div>
   );
 };
