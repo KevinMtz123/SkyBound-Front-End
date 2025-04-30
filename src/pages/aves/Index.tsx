@@ -95,8 +95,8 @@ const AvesIndex = () => {
 
   const handleOpenEditModal = (ave: Ave) => {
     setAveEditar(ave);
-    setImagenPreview(ave.rutaImagen ? `https://localhost:7164/api/imagenes/${ave.nombreImagen}` : null);
-    setImagenFile(null);  // 🔥 aquí limpiar
+    setImagenPreview(ave.rutaImagen ? `https://skybounapi.onrender.com/api/imagenes/${ave.nombreImagen}` : null);
+    setImagenFile(null);  
     setModalEditShow(true);
   };
   
