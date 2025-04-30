@@ -31,13 +31,16 @@ const DetalleAve = () => {
       </button>
 
       <div className="card shadow-sm p-4">
-        {ave.nombreImagen && (
-          <img
-<img src={`https://skybounapi.onrender.com/api/imagenes/${ave.idAve}`} />
-            alt={ave.nombre ?? "Imagen de ave"}
-            className="img-fluid rounded mb-4"
-          />
-        )}
+        <img
+  src={`https://skybounapi.onrender.com/api/imagenes/${ave.idAve}`}
+  alt={ave.nombre ?? "Imagen de ave"}
+  className="img-fluid rounded mb-4"
+  style={{ height: "300px", width: "100%", objectFit: "cover" }}
+  onError={(e) => {
+    e.currentTarget.src = "/imagen-no-disponible.jpg";
+  }}
+/>
+
         <h2 className="fw-bold">{ave.nombre}</h2>
         <p>{ave.descripcion}</p>
 
