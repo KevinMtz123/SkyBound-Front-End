@@ -11,8 +11,8 @@ import Toast from "react-bootstrap/Toast";
 import ToastContainer from "react-bootstrap/ToastContainer";
 import { useNavigate } from "react-router-dom";
 
-const [usuarioLogueado, setUsuarioLogueado] = useState(false);
 const UsuariosIndex = () => {
+  const [usuarioLogueado, setUsuarioLogueado] = useState(false);
   const [usuarios, setUsuarios] = useState<Usuario[]>([]);
   const [modalEditShow, setModalEditShow] = useState(false);
   const [modalAddShow, setModalAddShow] = useState(false);
@@ -33,15 +33,14 @@ const UsuariosIndex = () => {
   const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
-  const usuario = localStorage.getItem("usuario");
-  if (!usuario) {
-    setUsuarioLogueado(false);
-  } else {
-    setUsuarioLogueado(true);
-    cargarUsuarios(); 
-  }
-}, []);
-
+    const usuario = localStorage.getItem("usuario");
+    if (!usuario) {
+      setUsuarioLogueado(false);
+    } else {
+      setUsuarioLogueado(true);
+      cargarUsuarios();
+    }
+  }, []);
 
   const cargarUsuarios = async () => {
     try {
@@ -122,14 +121,15 @@ const UsuariosIndex = () => {
       console.error("Error al eliminar usuario", error);
     }
   };
-if (!usuarioLogueado) {
-  return (
-    <div className="container py-5 text-center">
-      <h2 className="text-danger">Acceso denegado 🔒</h2>
-      <p>Debes iniciar sesión para ver esta sección.</p>
-    </div>
-  );
-}
+
+  if (!usuarioLogueado) {
+    return (
+      <div className="container py-5 text-center">
+        <h2 className="text-danger">Acceso denegado 🔒</h2>
+        <p>Debes iniciar sesión para ver esta sección.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="container py-5">
@@ -335,5 +335,6 @@ if (!usuarioLogueado) {
     </div>
   );
 };
+
 
 export default UsuariosIndex;
