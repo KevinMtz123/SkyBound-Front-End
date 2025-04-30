@@ -35,7 +35,7 @@ const DetalleAve = () => {
   src={`https://skybounapi.onrender.com/api/imagenes/${ave.idAve}`}
   alt={ave.nombre ?? "Imagen de ave"}
   className="img-fluid rounded mb-4"
-  style={{ height: "300px", width: "100%", objectFit: "cover" }}
+  style={{ height: "600px", width: "100%", objectFit: "cover" }}
   onError={(e) => {
     e.currentTarget.src = "/imagen-no-disponible.jpg";
   }}
