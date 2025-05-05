@@ -283,7 +283,7 @@ const AvesIndex = () => {
 
             {/* Categoría */}
             <div className="mb-3">
-              <h6 className="fw-semibold">Categoría</h6>
+              <h6 className="fw-semibold">Categoría Estacional</h6>
               {categorias.map(c => (
                 <div key={c.idCategoria} className="form-check">
                   <input
