@@ -50,6 +50,7 @@ const AvesIndex = () => {
   const [estatus, setEstatus] = useState<EstatusProteccion[]>([]);
   const [habitats, setHabitats] = useState<Habitat[]>([]);
   const [showToast, setShowToast] = useState(false);
+  const [cargando, setCargando] = useState(false);
 
   const navigate = useNavigate();
 
@@ -62,6 +63,7 @@ const AvesIndex = () => {
   }, [navigate]);
   
   const cargarDatos = async () => {
+    setCargando(true);
     try {
       const [avesRes, familiasRes, categoriasRes, estatusRes, habitatsRes] = await Promise.all([
         api.get<Ave[]>("/Aves"),
@@ -78,9 +80,11 @@ const AvesIndex = () => {
       setHabitats(habitatsRes.data);
     } catch (error) {
       console.error("Error al cargar datos", error);
+    } finally {
+      setCargando(false);
     }
   };
-
+  
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
@@ -243,7 +247,15 @@ const AvesIndex = () => {
   };
 
   return (
+    
     <div className="container-fluid py-5">
+      <Modal show={cargando} backdrop="static" keyboard={false} centered>
+  <Modal.Body className="d-flex flex-column align-items-center justify-content-center py-5">
+    <div className="spinner-border text-primary mb-3" style={{ width: "3rem", height: "3rem" }} role="status" />
+    <h5 className="fw-bold text-center mt-2">Cargando datos...</h5>
+  </Modal.Body>
+</Modal>
+
       {/* Título */}
       <h2 className="mb-5 display-5 fw-semibold text-center">Galería de Aves 🦜</h2>
       
