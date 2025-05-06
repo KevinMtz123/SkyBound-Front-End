@@ -9,7 +9,6 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Toast from "react-bootstrap/Toast";
 import ToastContainer from "react-bootstrap/ToastContainer";
-import { useNavigate } from "react-router-dom";
 
 const UsuariosIndex = () => {
   const [usuarioLogueado, setUsuarioLogueado] = useState(false);
@@ -78,7 +77,7 @@ const UsuariosIndex = () => {
     if (!usuarioEditar) return;
 
     try {
-      let usuarioActualizado = { ...usuarioEditar };
+      const usuarioActualizado = { ...usuarioEditar };
 
       if (nuevaClaveEditar.trim() !== "") {
         usuarioActualizado.clave = CryptoJS.SHA256(nuevaClaveEditar).toString();
