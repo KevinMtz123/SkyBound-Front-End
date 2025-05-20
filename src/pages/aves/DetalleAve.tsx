@@ -32,7 +32,7 @@ const DetalleAve = () => {
 
       <div className="card shadow-sm p-4">
         <img
-  src={`https://skybounapi.onrender.com/api/imagenes/${ave.idAve}`}
+  src={`https://localhost:7164/api/imagenes/${ave.idAve}`}
   alt={ave.nombre ?? "Imagen de ave"}
   className="img-fluid rounded mb-4"
   style={{ height: "600px", width: "100%", objectFit: "cover" }}

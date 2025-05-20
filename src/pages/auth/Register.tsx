@@ -121,14 +121,14 @@ const UsuariosIndex = () => {
     }
   };
 
-  if (!usuarioLogueado) {
-    return (
-      <div className="container py-5 text-center">
-        <h2 className="text-danger">Acceso denegado 🔒</h2>
-        <p>Debes iniciar sesión para ver esta sección.</p>
-      </div>
-    );
-  }
+  // if (!usuarioLogueado) {
+  //   return (
+  //     <div className="container py-5 text-center">
+  //       <h2 className="text-danger">Acceso denegado 🔒</h2>
+  //       <p>Debes iniciar sesión para ver esta sección.</p>
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className="container py-5">

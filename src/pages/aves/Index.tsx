@@ -14,6 +14,46 @@ import Col from "react-bootstrap/Col";
 import Toast from "react-bootstrap/Toast";
 import ToastContainer from "react-bootstrap/ToastContainer";
 
+// Componente de imagen con manejo de errores
+const BirdImage = ({ aveId, nombre, className, style }) => {
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [imageError, setImageError] = useState(false);
+  
+  const handleError = () => {
+    console.error(`Error al cargar la imagen para ${nombre} (ID: ${aveId})`);
+    setImageError(true);
+  };
+  
+  return (
+    <>
+      {imageError ? (
+        <div className="bg-light d-flex align-items-center justify-content-center rounded-top-4" style={style}>
+          <span className="text-muted">Error al cargar imagen</span>
+        </div>
+      ) : (
+        <>
+          <img 
+            src={`https://localhost:7164/api/Aves/imagen/${aveId}`}
+            alt={nombre ?? "Imagen de ave"}
+            className={className}
+            style={{...style, display: imageLoaded ? 'block' : 'none'}}
+            onError={handleError}
+            onLoad={() => setImageLoaded(true)}
+          />
+          
+          {!imageLoaded && (
+            <div className="bg-light d-flex align-items-center justify-content-center rounded-top-4" style={style}>
+              <div className="spinner-border text-primary" role="status">
+                <span className="visually-hidden">Cargando...</span>
+              </div>
+            </div>
+          )}
+        </>
+      )}
+    </>
+  );
+};
+
 const AvesIndex = () => {
   const [aves, setAves] = useState<Ave[]>([]);
   const [avesFiltradas, setAvesFiltradas] = useState<Ave[]>([]);
@@ -38,8 +78,6 @@ const AvesIndex = () => {
     idHabitat: null,
     alimentacion: "",
     funcionEcos: "",
-    rutaImagen: "",
-    nombreImagen: "",
     activa: true,
     listaRoja: false
   });
@@ -99,7 +137,7 @@ const AvesIndex = () => {
 
   const handleOpenEditModal = (ave: Ave) => {
     setAveEditar(ave);
-    setImagenPreview(ave.rutaImagen ? `https://skybounapi.onrender.com/api/imagenes/${ave.nombreImagen}` : null);
+    setImagenPreview(`https://localhost:7164/api/Aves/imagen/${ave.idAve}`);
     setImagenFile(null);  
     setModalEditShow(true);
   };
@@ -114,13 +152,11 @@ const AvesIndex = () => {
       idHabitat: null,
       alimentacion: "",
       funcionEcos: "",
-      rutaImagen: "",
-      nombreImagen: "",
       activa: true,
       listaRoja: false
     });
     setImagenPreview(null);
-    setImagenFile(null);  // 🔥 aquí limpiar
+    setImagenFile(null);
     setModalAddShow(true);
   };
   
@@ -208,7 +244,6 @@ const AvesIndex = () => {
     }
   };
   
-
   // Manejar filtros
   const manejarFiltro = (id: number, filtroActual: number[], setFiltro: (val: number[]) => void) => {
     if (filtroActual.includes(id)) {
@@ -247,25 +282,24 @@ const AvesIndex = () => {
   };
 
   return (
-    
     <div className="container-fluid py-5">
       <Modal show={cargando} backdrop="static" keyboard={false} centered>
-  <Modal.Body className="d-flex flex-column align-items-center justify-content-center py-5">
-    <div className="spinner-border text-primary mb-3" style={{ width: "3rem", height: "3rem" }} role="status" />
-    <h5 className="fw-bold text-center mt-2">Cargando datos...</h5>
-  </Modal.Body>
-</Modal>
+        <Modal.Body className="d-flex flex-column align-items-center justify-content-center py-5">
+          <div className="spinner-border text-primary mb-3" style={{ width: "3rem", height: "3rem" }} role="status" />
+          <h5 className="fw-bold text-center mt-2">Cargando datos...</h5>
+        </Modal.Body>
+      </Modal>
 
       {/* Título */}
       <h2 className="mb-5 display-5 fw-semibold text-center">Galería de Aves 🦜</h2>
       
       {usuarioLogueado && (
-  <div className="text-center mb-4">
-    <Button variant="outline-primary" className="fw-bold" onClick={handleOpenAddModal}>
-      + Agregar Ave
-    </Button>
-  </div>
-)}
+        <div className="text-center mb-4">
+          <Button variant="outline-primary" className="fw-bold" onClick={handleOpenAddModal}>
+            + Agregar Ave
+          </Button>
+        </div>
+      )}
 
       {/* Contenedor principal que contiene filtros y galería */}
       <div className="row">
@@ -367,37 +401,29 @@ const AvesIndex = () => {
               avesFiltradas.map((ave) => (
                 <div key={ave.idAve} className="col-12 col-sm-6 col-md-4 col-lg-3">
                   <div className="card h-100 shadow-sm border-0 rounded-4">
-                    {ave.nombreImagen ? (
-<img
-  src={`https://skybounapi.onrender.com/api/imagenes/${ave.idAve}`}
-  alt={ave.nombre ?? "Imagen de ave"}
-  className="card-img-top rounded-top-4"
-  style={{ height: "220px", objectFit: "cover", width: "100%" }}
-/>
-
-                    ) : (
-                      <div className="bg-light d-flex align-items-center justify-content-center rounded-top-4" style={{ height: "220px" }}>
-                        <span className="text-muted">Sin imagen</span>
-                      </div>
-                    )}
+                    
+                      <BirdImage 
+                        aveId={ave.idAve} 
+                        nombre={ave.nombre}
+                        className="card-img-top rounded-top-4"
+                        style={{ height: "220px", objectFit: "cover", width: "100%" }}
+                      />
+                    
                     <div className="card-body">
                       <h5 className="card-title fw-bold">{ave.nombre}</h5>
                       <p className="card-text text-muted">{ave.descripcion?.substring(0, 50) ?? "Sin descripción"}...</p>
                     </div>
                     <div className="card-footer bg-white border-0 d-flex justify-content-around pb-4">
-  {usuarioLogueado && (
-    <>
-      <Button variant="outline-success" size="sm" onClick={() => handleOpenEditModal(ave)}>✏️ Editar</Button>
-      <Button variant="outline-danger" size="sm" onClick={() => handleOpenDeleteModal(ave)}>🗑️ Eliminar</Button>
-    </>
-  )}
-  <Button variant="outline-info" size="sm" onClick={() => navigate(`/aves/${ave.idAve}`)}>
-    👁️ Ver Detalles
-  </Button>
-</div>
-
-
-
+                      {usuarioLogueado && (
+                        <>
+                          <Button variant="outline-success" size="sm" onClick={() => handleOpenEditModal(ave)}>✏️ Editar</Button>
+                          <Button variant="outline-danger" size="sm" onClick={() => handleOpenDeleteModal(ave)}>🗑️ Eliminar</Button>
+                        </>
+                      )}
+                      <Button variant="outline-info" size="sm" onClick={() => navigate(`/aves/${ave.idAve}`)}>
+                        👁️ Ver Detalles
+                      </Button>
+                    </div>
                   </div>
                 </div>
               ))

@@ -13,8 +13,6 @@ export interface Ave {
   idHabitat: number | null;
   alimentacion: string | null;
   funcionEcos: string | null;
-  rutaImagen: string | null;
-  nombreImagen: string | null;
   activa: boolean | null;
   listaRoja: boolean | null;
   fechaRegistro: string | null;
